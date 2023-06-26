@@ -63,11 +63,14 @@ developing your own process.
 - Add a new toy when the toy form is submitted
 
   - How I debugged:
+      I checked my rails server logs upon submission and it gave me the error: "NameError (uninitialized constant ToysController::Toys):" pointed to line 10. I knew the 'Toys' class name was written incorrectly. I replaced it with 'Toy' and the post request went through successfully.
 
 - Update the number of likes for a toy
 
   - How I debugged:
+      I checked the rails server logs after clicking the like button and found the following error: "Unpermitted parameter: :id". I ran byebug to check the toy_params and confirmed only the 'likes' param was permitted. I quickly went down to the private section to check the toy_params method. I added the 'id' attribute among the permitted params. I tried liking a toy on my app again, and it was updating.
 
 - Donate a toy to Goodwill (and delete it from our database)
 
   - How I debugged:
+      I clicked the 'Donate to Goodwill' button and nothing happened, so checked my server logs in which I found the error: 'ActionController::RoutingError (No route matches [DELETE] "/toys/11"):'. I checked my config/routes.rb file and indeed there wasn't any route that handled deleting from the database. I added a destroy route which handled deleting through the destroy method present in toys_controller.rb file. I now tried donating a toy, and it was successfully removed from the database, and hence disappeared from the front-end.
